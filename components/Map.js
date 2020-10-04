@@ -11,6 +11,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
+import SafeAreaView from "react-native-web";
+import Button from "react-native-web";
 
 export default class Map extends React.Component {
     mapViewRef = React.createRef();

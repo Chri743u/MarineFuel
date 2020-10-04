@@ -20,9 +20,8 @@ const StackNavigator = createStackNavigator(
       StationList: { screen: StationList },
       StationDetails: { screen: StationDetails },
       //UpdatePrice:{screen: UpdatePrice},
-      Map:{screen: Map},
     },
-    { initialRouteKey: 'Map' }
+    { initialRouteKey: 'StationList' }
 );
 
 const TabNavigator = createBottomTabNavigator({
