@@ -11,12 +11,15 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
+import StationList from "./components/StationList";
+import StationDetails from "./components/StationDetails";
+import Map from "./components/Map";
 
 const StackNavigator = createStackNavigator(
     {
       StationList: { screen: StationList },
       StationDetails: { screen: StationDetails },
-      UpdatePrice:{screen: UpdatePrice},
+      //UpdatePrice:{screen: UpdatePrice},
       Map:{screen: Map},
     },
     { initialRouteKey: 'Map' }
