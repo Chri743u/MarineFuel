@@ -9,7 +9,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from 'firebase';
 import StationList from "./components/StationList";
 import StationDetails from "./components/StationDetails";
@@ -28,7 +28,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
           tabBarLabel:"StationList",
           tabBarIcon: ({ tintColor }) => (
-              <AntDesign name="car" size={24} color={tintColor} />
+              <MaterialCommunityIcons name="gas-station-outline" size={24} color={tintColor} />
           )
         },
       },
@@ -37,7 +37,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
           tabBarLabel:"Map",
           tabBarIcon: ({ tintColor }) => (
-              <AntDesign name="car" size={24} color={tintColor} />
+              <MaterialCommunityIcons name="map" size={24} color={tintColor} />
           )
         },
       }
