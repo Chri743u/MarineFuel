@@ -59,7 +59,7 @@ const TabNavigator = createBottomTabNavigator({
 const AppContainer = createAppContainer(TabNavigator);
 
 export default class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const firebaseConfig = {
       apiKey: "AIzaSyBaa1U7cLxIXE2WZMLKplA7vrEcmCWRmI8",
       authDomain: "marinefuel-95f1a.firebaseapp.com",
