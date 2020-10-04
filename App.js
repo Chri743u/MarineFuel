@@ -1,6 +1,55 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
+import { AntDesign } from '@expo/vector-icons';
+import firebase from 'firebase';
+
+const StackNavigator = createStackNavigator(
+    {
+      StationList: { screen: StationList },
+      StationDetails: { screen: StationDetails },
+      UpdatePrice:{screen: UpdatePrice},
+      Map:{screen: Map},
+    },
+    { initialRouteKey: 'Map' }
+);
+
+const TabNavigator = createBottomTabNavigator({
+      StationList: {
+        screen:StackNavigator,
+        navigationOptions: {
+          tabBarLabel:"StationList",
+          tabBarIcon: ({ tintColor }) => (
+              <AntDesign name="gas-pump" size={24} color={tintColor} />
+          )
+        },
+      },
+      Map: {
+        screen:Map,
+        navigationOptions: {
+          tabBarLabel:"Map",
+          tabBarIcon: ({ tintColor }) => (
+              <AntDesign name="map" size={24} color={tintColor} />
+          )
+        },
+      }
+    },
+    {
+      tabBarOptions: {
+        showIcon:true,
+        labelStyle: {
+          fontSize: 15,
+        },
+        activeTintColor: 'darkblue',
+        inactiveTintColor: 'gray',
+        size:40
+      }
+    });
+
+const AppContainer = createAppContainer(TabNavigator);
 
 export default class App extends React.Component {
   componentWillMount() {
