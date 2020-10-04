@@ -1,5 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
+import Constants from 'expo-constants';
+import MapView, {Marker} from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import {Accuracy} from "expo-location";
 import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
