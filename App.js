@@ -14,7 +14,6 @@ import firebase from 'firebase';
 import StationList from "./components/StationList";
 import StationDetails from "./components/StationDetails";
 import Map from "./components/Map";
-
 const StackNavigator = createStackNavigator(
     {
       StationList: { screen: StationList },
@@ -23,14 +22,13 @@ const StackNavigator = createStackNavigator(
     },
     { initialRouteKey: 'StationList' }
 );
-
 const TabNavigator = createBottomTabNavigator({
       StationList: {
         screen:StackNavigator,
         navigationOptions: {
           tabBarLabel:"StationList",
           tabBarIcon: ({ tintColor }) => (
-              <AntDesign name="gas-pump" size={24} color={tintColor} />
+              <AntDesign name="car" size={24} color={tintColor} />
           )
         },
       },
@@ -39,7 +37,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
           tabBarLabel:"Map",
           tabBarIcon: ({ tintColor }) => (
-              <AntDesign name="map" size={24} color={tintColor} />
+              <AntDesign name="car" size={24} color={tintColor} />
           )
         },
       }
@@ -55,11 +53,9 @@ const TabNavigator = createBottomTabNavigator({
         size:40
       }
     });
-
 const AppContainer = createAppContainer(TabNavigator);
-
 export default class App extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     const firebaseConfig = {
       apiKey: "AIzaSyBaa1U7cLxIXE2WZMLKplA7vrEcmCWRmI8",
       authDomain: "marinefuel-95f1a.firebaseapp.com",
@@ -71,7 +67,6 @@ export default class App extends React.Component {
       measurementId: "G-HP5KBX6H6W"
     };
 
-
     // Vi kontrollerer at der ikke allerede er en initialiseret instans af firebase
     // Så undgår vi fejlen Firebase App named '[DEFAULT]' already exists (app/duplicate-app).
     if (firebase.apps.length === 0) {
@@ -82,7 +77,6 @@ export default class App extends React.Component {
     return <AppContainer />;
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
