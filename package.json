@@ -28,7 +28,9 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "@expo/vector-icons": "^10.2.1"
+    "@expo/vector-icons": "^10.2.1",
+    "expo-location": "^9.0.1",
+    "expo-permissions": "^9.3.0"
   },
-  "private": true
+  "private": true,
 }
