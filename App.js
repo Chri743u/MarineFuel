@@ -1,59 +1,57 @@
-import { StatusBar } from 'expo-status-bar';
+import firebase from 'firebase';
 import * as React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import MapView, {Marker} from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import {Accuracy} from "expo-location";
-import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import StationList from "./Components/StationList";
+import AddStation from "./Components/AddStation";
+import StationDetails from "./Components/StationDetails";
+import { AntDesign } from '@expo/vector-icons';
+import Map from "./Components/Map"
+import EditStation from "./Components/EditStation";
 import { FontAwesome5 } from '@expo/vector-icons';
-import firebase from 'firebase';
-import StationList from "./components/StationList";
-import StationDetails from "./components/StationDetails";
-import Map from "./components/Map";
+
 const StackNavigator = createStackNavigator(
     {
       StationList: { screen: StationList },
       StationDetails: { screen: StationDetails },
-      //UpdatePrice:{screen: UpdatePrice},
+      EditStation:{screen: EditStation},
     },
-    { initialRouteKey: 'StationList' }
+    { initialRouteKey: 'Station List' }
 );
+
 const TabNavigator = createBottomTabNavigator({
-      StationList: {
-        screen:StackNavigator,
-        navigationOptions: {
-          tabBarLabel:"StationList",
-          tabBarIcon: ({ tintColor }) => (
-              <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
-          )
-        },
-      },
-      Map: {
-        screen:Map,
-        navigationOptions: {
-          tabBarLabel:"Map",
-          tabBarIcon: ({ tintColor }) => (
-              <FontAwesome5 name="map" size={24} color={tintColor} />
-          )
-        },
-      }
+  Main: {screen: StackNavigator,
+    navigationOptions: {
+      tabBarLabel:"Station List",
+      tabBarIcon: ({ tintColor }) => (
+          <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
+      )
     },
-    {
-      tabBarOptions: {
-        showIcon:true,
-        labelStyle: {
-          fontSize: 15,
-        },
-        activeTintColor: 'darkblue',
-        inactiveTintColor: 'gray',
-        size:40
-      }
-    });
+  },
+  Second: {screen: AddStation,
+    navigationOptions: {
+      tabBarLabel:"Add Station",
+      tabBarIcon: ({ tintColor }) => (
+          <AntDesign name="plussquareo" size={24} color={tintColor} />
+      )
+    },
+  },
+  Third: {screen: Map,
+    navigationOptions: {
+      tabBarLabel:"Map",
+      tabBarIcon: ({ tintColor }) => (
+          <FontAwesome5 name="map" size={24} color={tintColor} />
+      )
+    },
+  },
+
+});
 const AppContainer = createAppContainer(TabNavigator);
+
+
 export default class App extends React.Component {
   componentWillMount() {
     const firebaseConfig = {
@@ -69,19 +67,13 @@ export default class App extends React.Component {
 
     // Vi kontrollerer at der ikke allerede er en initialiseret instans af firebase
     // Så undgår vi fejlen Firebase App named '[DEFAULT]' already exists (app/duplicate-app).
-    if (firebase.apps.length === 0) {
+    if (firebase.apps.length ===0 ) {
       firebase.initializeApp(firebaseConfig);
     }
+
   }
   render() {
+
     return <AppContainer />;
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

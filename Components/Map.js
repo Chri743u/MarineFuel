@@ -75,7 +75,7 @@ export default class Map extends React.Component {
         }
         return (
             <View>
-                <Button title="update location" onPress={this.updateLocation} />
+                <Button title="Update Location" onPress={this.updateLocation} />
                 {currentLocation && (
                     <Text>
                         {`${currentLocation.latitude}, ${

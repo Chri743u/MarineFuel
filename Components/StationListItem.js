@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import {
     View,
@@ -28,11 +29,11 @@ export default class StationDetails extends React.Component {
     };
 
     render() {
-        const { Station } = this.props;
+        const { station } = this.props;
         return (
             <TouchableOpacity style={styles.container} onPress={this.handlePress}>
                 <Text style={styles.label}>
-                    {Station.brand} {Station.model}
+                    {station.name} {station.price}
                 </Text>
             </TouchableOpacity>
         );

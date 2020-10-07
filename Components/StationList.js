@@ -1,8 +1,21 @@
+
 import * as React from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 
 import StationListItem from './StationListItem';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start' // if you want to fill rows left to right
+    },
+    item: {
+        width: '50%' // is 50% of container width
+    }
+});
 
 export default class StationList extends React.Component {
     state = {
@@ -14,7 +27,7 @@ export default class StationList extends React.Component {
             .database()
             .ref('/Stations')
             .on('value', snapshot => {
-                this.setState({ cars: snapshot.val() });
+                this.setState({ stations: snapshot.val() });
             });
     }
 
@@ -33,14 +46,15 @@ export default class StationList extends React.Component {
         // Vi skal også bruge alle IDer, så vi tager alle keys også.
         const stationKeys = Object.keys(stations);
         return (
-            <View>
+            <View style={styles.row}>
                 <FlatList
                     data={stationArray}
-                    // Vi bruger stationKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til StationListItem
+                    // Vi bruger stationKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til CarListItem
                     keyExtractor={(item, index) => stationKeys[index]}
                     renderItem={({ item, index }) => (
                         <StationListItem
-                            car={item}
+
+                            station={item}
                             id={stationKeys[index]}
                             onSelect={this.handleSelectStation}
                         />
@@ -48,5 +62,6 @@ export default class StationList extends React.Component {
                 />
             </View>
         );
+
     }
 }

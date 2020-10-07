@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react-native';
 import firebase from 'firebase';
@@ -42,15 +43,15 @@ export default class StationDetails extends React.Component {
     };
 
     handleEdit = () => {
-        // Vi navigerer videre til EditCar skærmen og sender ID med
+        // Vi navigerer videre til EditStation skærmen og sender ID med
         const { navigation } = this.props;
         const id = navigation.getParam('id');
-        navigation.navigate('EditCar', { id });
+        navigation.navigate('EditStation', { id });
     };
 
     confirmDelete = () => {
         if(Platform.OS ==='ios' || Platform.OS ==='android'){
-            Alert.alert('Are you sure?', 'Do you want to delete this station?', [
+            Alert.alert('Are you sure?', 'Do you want to delete the station?', [
                 { text: 'Cancel', style: 'cancel' },
                 // Vi bruger this.handleDelete som eventHandler til onPress
                 { text: 'Delete', style: 'destructive', onPress: this.handleDelete },
@@ -66,20 +67,20 @@ export default class StationDetails extends React.Component {
 
     // Vi sletter den aktuelle bil
     handleDelete = () => {
-        const { navigation } = this.props;
-        const id = navigation.getParam('id');
-        try {
-            firebase
-                .database()
-                // Vi sætter stationens ID ind i stien
-                .ref(`/Stations/${id}`)
-                // Og fjerner data fra den sti
-                .remove();
-            // Og går tilbage når det er udført
-            navigation.goBack();
-        } catch (error) {
-            Alert.alert(error.message);
-        }
+            const { navigation } = this.props;
+            const id = navigation.getParam('id');
+            try {
+                firebase
+                    .database()
+                    // Vi sætter bilens ID ind i stien
+                    .ref(`/Stations/${id}`)
+                    // Og fjerner data fra den sti
+                    .remove();
+                // Og går tilbage når det er udført
+                navigation.goBack();
+            } catch (error) {
+                Alert.alert(error.message);
+            }
 
     };
 
@@ -93,20 +94,12 @@ export default class StationDetails extends React.Component {
                 <Button title="Edit" onPress={this.handleEdit} />
                 <Button title="Delete" onPress={this.confirmDelete} />
                 <View style={styles.row}>
-                    <Text style={styles.label}>Brand</Text>
-                    <Text style={styles.value}>{station.brand}</Text>
+                    <Text style={styles.label}>Navn</Text>
+                    <Text style={styles.value}>{station.name}</Text>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Model</Text>
-                    <Text style={styles.value}>{station.model}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Year</Text>
-                    <Text style={styles.value}>{station.year}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>License Plate</Text>
-                    <Text style={styles.value}>{station.licensePlate}</Text>
+                    <Text style={styles.label}>Fuel price</Text>
+                    <Text style={styles.value}>{station.price}</Text>
                 </View>
             </View>
         );

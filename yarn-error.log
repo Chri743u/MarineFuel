@@ -1,25 +1,20 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.5/libexec/bin/yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  /Users/nikolaj/opt/anaconda3/bin:/Users/nikolaj/opt/anaconda3/condabin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Applications/Wireshark.app/Contents/MacOS
+  C:\Python38\Scripts\;C:\Python38\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Wolfram Research\WolframScript\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\ProgramData\chocolatey\bin;C:\Users\Chris\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Chris\Anaconda3;C:\Users\Chris\Anaconda3\Library\mingw-w64\bin;C:\Users\Chris\Anaconda3\Library\usr\bin;C:\Users\Chris\Anaconda3\Library\bin;C:\Users\Chris\Anaconda3\Scripts;C:\Users\Chris\AppData\Local\Microsoft\WindowsApps;C:\Users\Chris\AppData\Local\atom\bin;C:\Users\Chris\AppData\Local\Microsoft\WindowsApps;C:\Users\Chris\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Chris\AppData\Local\Programs\Microsoft VS Code\bin
 
 Yarn version: 
   1.22.5
 
 Node version: 
-  14.5.0
+  14.9.0
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  SyntaxError: /Users/nikolaj/PhpstormProjects/MarineFuel/package.json: Unexpected token } in JSON at position 1102
-      at JSON.parse (<anonymous>)
-      at /usr/local/Cellar/yarn/1.22.5/libexec/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/Cellar/yarn/1.22.5/libexec/lib/cli.js:310:30)
-      at /usr/local/Cellar/yarn/1.22.5/libexec/lib/cli.js:321:13
+  Error: EPERM: operation not permitted, unlink 'C:\Users\Chris\AppData\Local\Yarn\Cache\v6\npm-react-native-maps-0.27.1-2f10cd417bb2fd938c9e015b1c9b6d9b1a44b97f-integrity\node_modules\react-native-maps\.yarn-tarball.tgz'
 
 npm manifest: 
   {
@@ -32,9 +27,13 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@expo/vector-icons": "^10.2.1",
       "@react-native-community/masked-view": "^0.1.10",
       "@react-navigation/native": "^5.7.5",
       "expo": "~39.0.2",
+      "expo-constants": "^9.2.0",
+      "expo-location": "^9.0.1",
+      "expo-permissions": "^9.3.0",
       "expo-status-bar": "~1.0.2",
       "firebase": "^7.22.0",
       "lodash": "^4.17.20",
@@ -49,13 +48,10 @@ npm manifest:
       "react-native-web": "~0.13.12",
       "react-navigation": "^4.4.2",
       "react-navigation-stack": "^2.8.4",
-      "react-navigation-tabs": "^2.9.2",
-      "@expo/vector-icons": "^10.2.1",
-      "expo-location": "^9.0.1",
-      "expo-permissions": "^9.3.0"
+      "react-navigation-tabs": "^2.9.2"
     },
     "devDependencies": {
-      "@babel/core": "~7.9.0",
+      "@babel/core": "~7.9.0"
     },
     "private": true
   }
@@ -5239,6 +5235,11 @@ Lockfile:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
     integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
+  
+  react-native-maps@^0.27.1:
+    version "0.27.1"
+    resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.27.1.tgz#2f10cd417bb2fd938c9e015b1c9b6d9b1a44b97f"
+    integrity sha512-HygBkZBecTnIVRYrSiLRAvu4OmXOYso/A7c6Cy73HkOh9CgGV8Ap5eBea24tvmFGptjj5Hg8AJ94/YbmWK1Okw==
   
   react-native-reanimated@^1.13.1:
     version "1.13.1"
