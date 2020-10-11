@@ -5,17 +5,17 @@ import Constants from 'expo-constants';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-import StationList from "./Components/StationList";
-import AddStation from "./Components/AddStation";
-import StationDetails from "./Components/StationDetails";
+import StationList from "./components/StationList";
+import AddStation from "./components/AddStation";
+import StationDetails from "./components/StationDetails";
 import { AntDesign } from '@expo/vector-icons';
-import Map from "./Components/Map"
-import EditStation from "./Components/EditStation";
+import Map from "./components/Map";
+import EditStation from "./components/EditStation";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 const StackNavigator = createStackNavigator(
     {
-      StationList: { screen: StationList },
+      MarineFuel: { screen: StationList },
       StationDetails: { screen: StationDetails },
       EditStation:{screen: EditStation},
     },
@@ -25,20 +25,20 @@ const StackNavigator = createStackNavigator(
 const TabNavigator = createBottomTabNavigator({
   Main: {screen: StackNavigator,
     navigationOptions: {
-      tabBarLabel:"Station List",
+      tabBarLabel:"Havne Liste",
       tabBarIcon: ({ tintColor }) => (
           <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
       )
     },
   },
-  Second: {screen: AddStation,
+  /*Second: {screen: AddStation,
     navigationOptions: {
-      tabBarLabel:"Add Station",
+      tabBarLabel:"Tilføj havn",
       tabBarIcon: ({ tintColor }) => (
           <AntDesign name="plussquareo" size={24} color={tintColor} />
       )
     },
-  },
+  },*/
   Third: {screen: Map,
     navigationOptions: {
       tabBarLabel:"Map",

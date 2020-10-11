@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
     },
-    label: { width: 100, fontWeight: 'bold' },
+    label: { width: 187.5, fontWeight: 'bold' },
     value: { flex: 1 },
 });
 
@@ -63,8 +63,6 @@ export default class StationDetails extends React.Component {
         }
     };
 
-    // Vi spørger brugeren om han er sikker
-
     // Vi sletter den aktuelle bil
     handleDelete = () => {
             const { navigation } = this.props;
@@ -91,16 +89,17 @@ export default class StationDetails extends React.Component {
         }
         return (
             <View style={styles.container}>
-                <Button title="Edit" onPress={this.handleEdit} />
-                <Button title="Delete" onPress={this.confirmDelete} />
+
                 <View style={styles.row}>
                     <Text style={styles.label}>Navn</Text>
                     <Text style={styles.value}>{station.name}</Text>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Fuel price</Text>
+                    <Text style={styles.label}>Brændstofspris</Text>
                     <Text style={styles.value}>{station.price}</Text>
                 </View>
+                <Button title="Edit" onPress={this.handleEdit} />
+                <Button title="Delete" onPress={this.confirmDelete} />
             </View>
         );
     }

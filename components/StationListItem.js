@@ -10,14 +10,13 @@ import {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexDirection: "row",
+        padding: 13,
         borderWidth: 1,
         margin: 5,
-        padding: 5,
-        height: 50,
-        justifyContent:'center'
+        justifyContent:'space-between',
     },
-    label: { fontWeight: 'bold' },
+    StationText: { width: 245,},
 });
 
 export default class StationDetails extends React.Component {
@@ -31,11 +30,14 @@ export default class StationDetails extends React.Component {
     render() {
         const { station } = this.props;
         return (
-            <TouchableOpacity style={styles.container} onPress={this.handlePress}>
-                <Text style={styles.label}>
-                    {station.name} {station.price}
-                </Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+                    <Text style={styles.StationText}>
+                        {station.name}
+                    </Text>
+                    <Text style={styles.StationText}>
+                        {station.price}
+                    </Text>
+                </TouchableOpacity>
         );
     }
 }

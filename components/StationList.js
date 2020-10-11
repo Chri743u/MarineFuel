@@ -3,6 +3,7 @@ import * as React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 
+import SearchBar from 'react-native-search-bar';
 import StationListItem from './StationListItem';
 
 const styles = StyleSheet.create({
@@ -10,10 +11,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'flex-start' // if you want to fill rows left to right
     },
     item: {
-        width: '50%' // is 50% of container width
+        width: '50%'
     }
 });
 
@@ -27,11 +27,12 @@ export default class StationList extends React.Component {
             .database()
             .ref('/Stations')
             .on('value', snapshot => {
-                this.setState({ stations: snapshot.val() });
+                this.setState({stations: snapshot.val()});
+
             });
     }
 
-    handleSelectStation = id => {
+        handleSelectStation = id => {
         this.props.navigation.navigate('StationDetails', { id });
     };
 
@@ -41,7 +42,7 @@ export default class StationList extends React.Component {
         if (!stations) {
             return null;
         }
-        // Flatlist forventer et array. Derfor tager vi alle values fra vores cars objekt, og bruger som array til listen
+        // Flatlist forventer et array. Derfor tager vi alle values fra vores stations objekt, og bruger som array til listen
         const stationArray = Object.values(stations);
         // Vi skal også bruge alle IDer, så vi tager alle keys også.
         const stationKeys = Object.keys(stations);
@@ -49,14 +50,15 @@ export default class StationList extends React.Component {
             <View style={styles.row}>
                 <FlatList
                     data={stationArray}
-                    // Vi bruger stationKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til CarListItem
+                    // Vi bruger stationKeys til at finde ID på den aktuelle station og returnerer dette som key, og giver det med som ID til StationListItem
                     keyExtractor={(item, index) => stationKeys[index]}
                     renderItem={({ item, index }) => (
                         <StationListItem
-
                             station={item}
                             id={stationKeys[index]}
                             onSelect={this.handleSelectStation}
+
+
                         />
                     )}
                 />
