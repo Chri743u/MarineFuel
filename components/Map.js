@@ -106,17 +106,20 @@ export default class Map extends React.Component {
                     <Marker
                         coordinate={{ latitude: 55.493622, longitude: 11.174209 }}
                         title="Mullerup Havn"
-                        description="xx km"
+                        description="Brændstofpris: 11.3 - xx km"
+
                     />
                     <Marker
                         coordinate={{ latitude: 55.326935, longitude: 11.131381 }}
                         title="Korsør Lystbådehavn"
-                        description="xx km"
+                        description="Brændstofpris: 10.9 - xx km"
+
                     />
                     <Marker
                         coordinate={{ latitude: 55.965206, longitude: 11.844747 }}
                         title="Hundested Havn"
-                        description="xx km"
+                        description="Brændstofpris: 9.9 - xx km"
+
                     />
                     {userMarkerCoordinates.map((coordinate, index) => (
                         <Marker

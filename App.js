@@ -15,11 +15,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 const StackNavigator = createStackNavigator(
     {
-      MarineFuel: { screen: StationList },
+      StationList: { screen: StationList },
       StationDetails: { screen: StationDetails },
       EditStation:{screen: EditStation},
     },
-    { initialRouteKey: 'Station List' }
+    { initialRouteKey: 'Map' }
 );
 
 const TabNavigator = createBottomTabNavigator({
@@ -49,7 +49,14 @@ const TabNavigator = createBottomTabNavigator({
 },
 
 });
-const AppContainer = createAppContainer(TabNavigator);
+
+const MainStackNavigator = createStackNavigator(
+    {
+      MarineFuel: {screen: TabNavigator},
+    },
+{ initialRouteKey: 'Map' }
+)
+const AppContainer = createAppContainer(MainStackNavigator);
 
 
 export default class App extends React.Component {
