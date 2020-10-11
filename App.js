@@ -8,10 +8,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import StationList from "./components/StationList";
 import AddStation from "./components/AddStation";
 import StationDetails from "./components/StationDetails";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import Map from "./components/Map";
 import EditStation from "./components/EditStation";
-import { FontAwesome5 } from '@expo/vector-icons';
 
 const StackNavigator = createStackNavigator(
     {
