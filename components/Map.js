@@ -11,6 +11,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
+import * as geolib from 'geolib';
+import {getPreciseDistance} from "geolib";
 
 export default class Map extends React.Component {
     mapViewRef = React.createRef();
@@ -30,6 +32,8 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
+
+
     };
 
     updateLocation = async () => {
@@ -38,17 +42,8 @@ export default class Map extends React.Component {
         const { latitude, longitude } = coords;
         this.mapViewRef &&
         this.mapViewRef.current.animateCamera({
-            camera: { center: { latitude, longitude }, zoom: 12, altitude: 100 },
+            camera: { center: { latitude, longitude }, zoom: 2000, altitude: 1050 },
             duration: 10,
-        });
-    };
-
-    handleLongPress = event => {
-        const { coordinate } = event.nativeEvent;
-        this.setState(prevState => {
-            return {
-                userMarkerCoordinates: [...prevState.userMarkerCoordinates, coordinate],
-            };
         });
     };
 
@@ -87,6 +82,7 @@ export default class Map extends React.Component {
         );
     };
 
+
     render() {
         const {
             userMarkerCoordinates,
@@ -94,28 +90,33 @@ export default class Map extends React.Component {
             selectedAddress,
         } = this.state;
         return (
+
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
                 <MapView
                     provider="google"
                     style={styles.map}
                     ref={this.mapViewRef}
+                    
                     showsUserLocation
-                    onLongPress={this.handleLongPress}>
+                    animate
+                    showsMyLocationButton
+                    initialPosition
+                    followsUserLocation={true}>
                     <Marker
-                        coordinate={{ latitude: 55.676195, longitude: 12.569419 }}
-                        title="Rådhuspladsen"
-                        description="blablabal"
+                        coordinate={{ latitude: 55.493622, longitude: 11.174209 }}
+                        title="Mullerup Havn"
+                        description="xx km"
                     />
                     <Marker
-                        coordinate={{ latitude: 55.673035, longitude: 12.568756 }}
-                        title="Tivoli"
-                        description="blablabal"
+                        coordinate={{ latitude: 55.326935, longitude: 11.131381 }}
+                        title="Korsør Lystbådehavn"
+                        description="xx km"
                     />
                     <Marker
-                        coordinate={{ latitude: 55.674082, longitude: 12.598108 }}
-                        title="Christiania"
-                        description="blablabal"
+                        coordinate={{ latitude: 55.965206, longitude: 11.844747 }}
+                        title="Hundested Havn"
+                        description="xx km"
                     />
                     {userMarkerCoordinates.map((coordinate, index) => (
                         <Marker

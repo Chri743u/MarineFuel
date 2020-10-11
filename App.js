@@ -23,23 +23,7 @@ const StackNavigator = createStackNavigator(
 );
 
 const TabNavigator = createBottomTabNavigator({
-  Main: {screen: StackNavigator,
-    navigationOptions: {
-      tabBarLabel:"Havne Liste",
-      tabBarIcon: ({ tintColor }) => (
-          <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
-      )
-    },
-  },
-  /*Second: {screen: AddStation,
-    navigationOptions: {
-      tabBarLabel:"Tilføj havn",
-      tabBarIcon: ({ tintColor }) => (
-          <AntDesign name="plussquareo" size={24} color={tintColor} />
-      )
-    },
-  },*/
-  Third: {screen: Map,
+  Main: {screen: Map,
     navigationOptions: {
       tabBarLabel:"Map",
       tabBarIcon: ({ tintColor }) => (
@@ -47,13 +31,29 @@ const TabNavigator = createBottomTabNavigator({
       )
     },
   },
+  Second: {screen: StackNavigator,
+    navigationOptions: {
+      tabBarLabel:"Havne Liste",
+      tabBarIcon: ({ tintColor }) => (
+          <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
+      )
+    },
+  },
+  Third: {screen: AddStation,
+    navigationOptions: {
+  tabBarLabel:"Tilføj havn",
+      tabBarIcon: ({ tintColor }) => (
+      <AntDesign name="plussquareo" size={24} color={tintColor} />
+  )
+},
+},
 
 });
 const AppContainer = createAppContainer(TabNavigator);
 
 
 export default class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const firebaseConfig = {
       apiKey: "AIzaSyBaa1U7cLxIXE2WZMLKplA7vrEcmCWRmI8",
       authDomain: "marinefuel-95f1a.firebaseapp.com",
@@ -73,7 +73,6 @@ export default class App extends React.Component {
 
   }
   render() {
-
     return <AppContainer />;
   }
 }
