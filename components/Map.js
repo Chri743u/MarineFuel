@@ -5,6 +5,7 @@ import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import firebase from "firebase";
 
 
 export default class Map extends React.Component {
@@ -27,7 +28,12 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
-    };
+        firebase
+            .database()
+            .ref('/Stations')
+            .on('value', snapshot => {
+                this.setState({stations: snapshot.val()});
+            });}
 
     //Opdaterer brugerens lokation
     updateLocation = async () => {
@@ -56,6 +62,7 @@ export default class Map extends React.Component {
 
     //Skriver nuværende positionskoordinaterne ved tryk på update knappen
     renderCurrentLocation = () => {
+
         const { hasLocationPermission, currentLocation } = this.state;
         if (hasLocationPermission === null) {
             return null;
@@ -80,6 +87,7 @@ export default class Map extends React.Component {
 
     render() {
         const {
+            stations,
             userMarkerCoordinates,
             selectedCoordinate,
             selectedAddress,
@@ -88,6 +96,13 @@ export default class Map extends React.Component {
 
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
+                <Marker
+                    //Manuel indtastning af en havn - bliver dynamisk senere
+                    coordinate={{ latitude: stations.lat, longitude: stations.lon}}
+                    title={stations.name}
+                    description="Brændstofpris: 10.9 - xx km"
+
+                />
                 <MapView
                     provider="google"
                     style={styles.map}
@@ -95,13 +110,6 @@ export default class Map extends React.Component {
                     showsUserLocation
                     showsMyLocationButton
                     followsUserLocation={true}>
-                    <Marker
-                        //Manuel indtastning af en havn - bliver dynamisk senere
-                        coordinate={{ latitude: 55.493622, longitude: 11.174209 }}
-                        title="Mullerup Havn"
-                        description="Brændstofpris: 11.3 - xx km"
-
-                    />
                     <Marker
                         coordinate={{ latitude: 55.326935, longitude: 11.131381 }}
                         title="Korsør Lystbådehavn"
