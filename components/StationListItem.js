@@ -1,12 +1,5 @@
-
 import * as React from 'react';
-import {
-    View,
-    Text,
-    FlatList,
-    StyleSheet,
-    TouchableOpacity,
-} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity,} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -21,12 +14,15 @@ const styles = StyleSheet.create({
 
 export default class StationDetails extends React.Component {
     handlePress = () => {
-        // Her pakker vi ting ud fra props
+        //Vi udpakker vores oprettede parametre, 'props'.
         const {id, onSelect} = this.props
-        // Kalder den onSelect prop vi får, med det ID vi har fået som argument.
+        //Og 'onSelect' tager ID'et som vi har kaldt som argument.
         onSelect(id)
     };
 
+    //render funktionen tager vores argument og præsenterer det på skærmen.
+    //Indpakningsfunktionen 'TouchableOpacity' reagere på touch. Ved et touch tryk er gennemsigtigheden nedsat -
+    //dvs. udseendesmæssigt dæmpes knappen.
     render() {
         const { station } = this.props;
         return (
@@ -35,7 +31,10 @@ export default class StationDetails extends React.Component {
                         {station.name}
                     </Text>
                     <Text style={styles.StationText}>
-                        {station.price}
+                        {station.diesel}
+                    </Text>
+                    <Text style={styles.StationText}>
+                        {station.benzin}
                     </Text>
                 </TouchableOpacity>
         );

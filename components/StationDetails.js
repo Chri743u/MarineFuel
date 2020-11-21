@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react-native';
 import firebase from 'firebase';
@@ -27,7 +26,7 @@ export default class StationDetails extends React.Component {
     state = { station: null };
 
     componentDidMount() {
-        // Vi udlæser ID fra navgation parametre og loader bilen når komponenten starter
+        //ID udlæses fra navigation parametre og station objektet indlæses når komponenten starter
         const id = this.props.navigation.getParam('id');
         this.loadStation(id);
     }
@@ -35,20 +34,21 @@ export default class StationDetails extends React.Component {
     loadStation = id => {
         firebase
             .database()
-            // ID fra funktionens argument sættes ind i stien vi læser fra
+            //Firebase instantiering som tager ID fra funktionens argument og indsættes i stien der hentes fra.
             .ref('/Stations/'+id)
             .on('value', asds => {
                 this.setState({ station: asds.val() });
             });
     };
 
+    //Funktionen som håndtere navigationen til 'EditStation' viewet tager ID'et som argument videre
     handleEdit = () => {
-        // Vi navigerer videre til EditStation skærmen og sender ID med
         const { navigation } = this.props;
         const id = navigation.getParam('id');
         navigation.navigate('EditStation', { id });
     };
 
+    //Dialogbokse som bekræfter/afkræfter en brugers handlinger
     confirmDelete = () => {
         if(Platform.OS ==='ios' || Platform.OS ==='android'){
             Alert.alert('Are you sure?', 'Do you want to delete the station?', [
@@ -63,7 +63,7 @@ export default class StationDetails extends React.Component {
         }
     };
 
-    // Vi sletter den aktuelle bil
+    //Funktionen som håndtere at et station objekt skal slettes.
     handleDelete = () => {
             const { navigation } = this.props;
             const id = navigation.getParam('id');
@@ -82,6 +82,8 @@ export default class StationDetails extends React.Component {
 
     };
 
+    //Vores præsentation på skærmen, hvor 'Navn' på stationen og 'Brændstofspris' på stationen fremgår
+    //Her bindes de forskellige funktioner sammen
     render() {
         const { station } = this.state;
         if (!station) {
@@ -95,8 +97,12 @@ export default class StationDetails extends React.Component {
                     <Text style={styles.value}>{station.name}</Text>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Brændstofspris</Text>
-                    <Text style={styles.value}>{station.price}</Text>
+                    <Text style={styles.label}>Dieselpris</Text>
+                    <Text style={styles.value}>{station.diesel}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Benzinpris</Text>
+                    <Text style={styles.value}>{station.benzin}</Text>
                 </View>
                 <Button title="Edit" onPress={this.handleEdit} />
                 <Button title="Delete" onPress={this.confirmDelete} />

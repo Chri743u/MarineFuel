@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import {
     View,
@@ -22,10 +21,12 @@ const styles = StyleSheet.create({
     input: { borderWidth: 1, flex: 1 },
 });
 
+//klassen tager data som kan skifte som komponent og opretter en tom string variabel.
 export default class EditStation extends React.Component {
     state = {
-        brand: '',
-        model: '',
+        name: '',
+        diesel: '',
+        benzin: '',
     };
 
     componentDidMount() {
@@ -33,34 +34,33 @@ export default class EditStation extends React.Component {
         this.loadStation(id);
     }
 
-    // Her loader vi bilens data ud fra det ID vi får med fra navigationen
+    //firebase instantieringen som indlæser stationens data fra argumentet, ID, vi fik fra navigationen.
     loadStation = id => {
         firebase
             .database()
             .ref('/Stations/'+id)
             .once('value', dataObject => {
                 const station = dataObject.val();
-                const {name, price} = station;
-                this.setState({ name, price});
+                const {name, diesel, benzin} = station;
+                this.setState({ name, diesel, benzin});
             });
     };
 
     handleNameChange = text => this.setState({ name: text });
+    handleDieselChange = text => this.setState({ diesel: text });
+    handleBenzinChange = text => this.setState({ benzin: text });
 
-    handlePriceChange = text => this.setState({ price: text });
-
+    //this.props.navigation udpakker vores komponents data så vi kan anvende dens parametre
     updateData = () => {
-        // Vi bruger this.props.navigation flere steder så vi pakker den ud én gang for alle
         const { navigation } = this.props;
-        const { name, price} = this.state;
+        const { name, diesel, benzin} = this.state;
         const id = navigation.getParam('id');
         try {
            firebase
                 .database()
                 .ref(`/Stations/${id}`)
-                // Vi bruger update, så kun de felter vi angiver, bliver ændret
-                .update({ name, price});
-            // Når bilen er ændret, går vi tilbage.
+                //Update ændre de felter vi har kaldt
+                .update({ name, diesel, benzin});
             Alert.alert("Din info er nu opdateret");
             navigation.goBack();
         } catch (error) {
@@ -69,7 +69,7 @@ export default class EditStation extends React.Component {
     };
 
     render() {
-        const { name, price} = this.state;
+        const { name, diesel, benzin} = this.state;
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -82,10 +82,18 @@ export default class EditStation extends React.Component {
                         />
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Brændstofspris</Text>
+                        <Text style={styles.label}>Dieselpris</Text>
                         <TextInput
-                            value={price}
-                            onChangeText={this.handlePriceChange}
+                            value={diesel}
+                            onChangeText={this.handleDieselChange}
+                            style={styles.input}
+                        />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Benzinpris</Text>
+                        <TextInput
+                            value={benzin}
+                            onChangeText={this.handleBenzinChange}
                             style={styles.input}
                         />
                     </View>

@@ -1,9 +1,6 @@
-
 import * as React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
-
-import SearchBar from 'react-native-search-bar';
 import StationListItem from './StationListItem';
 
 const styles = StyleSheet.create({
@@ -34,46 +31,42 @@ export default class StationList extends React.Component {
             .ref('/Stations')
             .on('value', snapshot => {
                 this.setState({stations: snapshot.val()});
-
-            });
-    }
+            });}
 
         handleSelectStation = id => {
-        this.props.navigation.navigate('StationDetails', { id });
-    };
+        this.props.navigation.navigate('StationDetails', { id });};
 
+    //render funktionen tager vores argument og præsenterer det på skærmen.
     render() {
         const { stations } = this.state;
-        // Vi viser ingenting hvis der ikke er data
+        //I tilfælde af en tom mængde (Ø), vises ingenting.
         if (!stations) {
             return null;
         }
-        // Flatlist forventer et array. Derfor tager vi alle values fra vores stations objekt, og bruger som array til listen
+        //Flatlist kræver variabler af typen 'array', hvorfor vi opretter en konstant som tager vores stations objekt
+        //og sætter værdierne ind som et array
         const stationArray = Object.values(stations);
-        // Vi skal også bruge alle IDer, så vi tager alle keys også.
+        //Ligeledes skal vores nøgler - vores ID'er - indsættes.
         const stationKeys = Object.keys(stations);
         return (
             <View style={styles.container1}>
                 <Text style={styles.header}> Havn                                                 Brændstofpris</Text>
-
             <View style={styles.row}>
                 <FlatList
                     data={stationArray}
-                    // Vi bruger stationKeys til at finde ID på den aktuelle station og returnerer dette som key, og giver det med som ID til StationListItem
+                    //stationKeys som blev indsat i vores Array anvendes til at finde ID'et på en given station
+                    //og returnere dette som en nøgle, og videregiver det som ID til StationListItem filen
                     keyExtractor={(item, index) => stationKeys[index]}
                     renderItem={({ item, index }) => (
                         <StationListItem
                             station={item}
                             id={stationKeys[index]}
                             onSelect={this.handleSelectStation}
-
-
                         />
                     )}
                 />
             </View>
             </View>
         );
-
     }
 }

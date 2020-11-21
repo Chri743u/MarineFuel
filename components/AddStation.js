@@ -25,26 +25,28 @@ const styles = StyleSheet.create({
 export default class AddStation extends React.Component {
     state = {
         name: '',
-        price: '',
+        diesel: '',
+        benzin: '',
     };
 
     //Håndtering af navn og pris til havn
     handleNameChange = text => this.setState({ name: text });
-
-    handlePriceChange = text => this.setState({ price: text });
+    handleDieselChange = text => this.setState({ diesel: text });
+    handleBenzinChange = text => this.setState({ benzin: text });
 
     //Kald til databasen som kaldes når der trykkes på 'add station' - ses i render()
     handleSave = () => {
-        const { name, price} = this.state;
+        const { name, diesel, benzin} = this.state;
         try {
             const reference = firebase
                 .database()
                 .ref('/Stations/')
-                .push({ name, price });
+                .push({ name, diesel, benzin});
             Alert.alert(`Saved`);
             this.setState({
                 name: '',
-                price: '',
+                diesel: '',
+                benzin: '',
 
             });
         } catch (error) {
@@ -53,7 +55,7 @@ export default class AddStation extends React.Component {
     };
 
     render() {
-        const { name, price} = this.state;
+        const { name, diesel, benzin} = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>
@@ -66,14 +68,22 @@ export default class AddStation extends React.Component {
                         />
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Brændstofspris</Text>
+                        <Text style={styles.label}>Dieselpris</Text>
                         <TextInput
-                            value={price}
-                            onChangeText={this.handlePriceChange}
+                            value={diesel}
+                            onChangeText={this.handleDieselChange}
                             style={styles.input}
                         />
                     </View>
-                    <Button title="Add station"
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Benzinpris</Text>
+                        <TextInput
+                            value={benzin}
+                            onChangeText={this.handleBenzinChange()}
+                            style={styles.input}
+                        />
+                    </View>
+                    <Button title="Add Station"
                             onPress={this.handleSave}
 
                     />

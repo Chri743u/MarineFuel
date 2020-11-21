@@ -1,7 +1,5 @@
 import firebase from 'firebase';
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -12,7 +10,8 @@ import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import Map from "./components/Map";
 import EditStation from "./components/EditStation";
 
-//StackNavigator til StationList views
+//StackNavigator giver app'en mulighed for at lave en overgang mellem hver skærm,
+//hvor hver skærm placeres ovenpå en stack.
 const StackNavigator = createStackNavigator(
     {
       StationList: { screen: StationList },
@@ -21,8 +20,7 @@ const StackNavigator = createStackNavigator(
     },
     { initialRouteKey: 'Map' }
 );
-
-//TabNavigator, som giver den overordnede navigation mellem Map, Havneliste og tilføj havn.
+//Vi opretter et panel i bunden af skræmen hvorfra der skiftes mellem forskellige 'ruter' (routes)
 const TabNavigator = createBottomTabNavigator({
   Main: {screen: Map,
     navigationOptions: {
@@ -32,6 +30,7 @@ const TabNavigator = createBottomTabNavigator({
       )
     },
   },
+  //Her oprettes og initialiseres vores screen til 'StackNavigator'.
   Second: {screen: StackNavigator,
     navigationOptions: {
       tabBarLabel:"Havne Liste",
@@ -39,7 +38,7 @@ const TabNavigator = createBottomTabNavigator({
           <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
       )
     },
-  },
+  },/*
   Third: {screen: AddStation,
     navigationOptions: {
   tabBarLabel:"Tilføj havn",
@@ -47,11 +46,10 @@ const TabNavigator = createBottomTabNavigator({
       <AntDesign name="plussquareo" size={24} color={tintColor} />
   )
 },
-},
-
+},*/
 });
 
-//For at have ens header i alle views tilføjer vi denne StackNavigator, hvor MarineFuel står i headeren
+//Det primære view hvorfra andre views udfoldes. 'initialRouteKey' definere hvilken skærm som vises på opstart
 const MainStackNavigator = createStackNavigator(
     {
       MarineFuel: {screen: TabNavigator},
@@ -62,21 +60,20 @@ const AppContainer = createAppContainer(MainStackNavigator);
 
 
 export default class App extends React.Component {
-  //Konfiguration til databasen
   componentDidMount() {
     const firebaseConfig = {
-        apiKey: "AIzaSyBnm2sD31aR3--yG2iAqhDVE1tRCNR3bEc",
-        authDomain: "marinefueldb.firebaseapp.com",
-        databaseURL: "https://marinefueldb.firebaseio.com",
-        projectId: "marinefueldb",
-        storageBucket: "marinefueldb.appspot.com",
-        messagingSenderId: "600925738741",
-        appId: "1:600925738741:web:cba1c092c955d1fb3897bc",
-        measurementId: "G-9ER6NJBPB2"
+      apiKey: "AIzaSyBaa1U7cLxIXE2WZMLKplA7vrEcmCWRmI8",
+      authDomain: "marinefuel-95f1a.firebaseapp.com",
+      databaseURL: "https://marinefuel-95f1a.firebaseio.com",
+      projectId: "marinefuel-95f1a",
+      storageBucket: "marinefuel-95f1a.appspot.com",
+      messagingSenderId: "598074706617",
+      appId: "1:598074706617:web:d748c9e73776ea4d306968",
+      measurementId: "G-HP5KBX6H6W"
     };
 
-    // Vi kontrollerer at der ikke allerede er en initialiseret instans af firebase
-    // Så undgår vi fejlen Firebase App named '[DEFAULT]' already exists (app/duplicate-app).
+    //Vi opretter en rekursiv funktion som kontrollere at der ikke allerede er oprettet en instans af firebase
+    //Dermed undgås firebase-fejlen "App named '[DEFAULT]' already exists (app/duplicate-app)".
     if (firebase.apps.length ===0 ) {
       firebase.initializeApp(firebaseConfig);
     }
