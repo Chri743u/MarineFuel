@@ -73,7 +73,6 @@ export default class StationList extends React.Component {
                 />
             </View>
             </View>
-
         );
 
     }

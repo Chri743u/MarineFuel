@@ -4,19 +4,13 @@ import Constants from 'expo-constants';
 import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import {Accuracy} from "expo-location";
 import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createStackNavigator } from 'react-navigation-stack';
-import { AntDesign } from '@expo/vector-icons';
-import firebase from 'firebase';
-import * as geolib from 'geolib';
-import {getPreciseDistance} from "geolib";
+
 
 export default class Map extends React.Component {
     mapViewRef = React.createRef();
 
+    //Vi sætter state til null
     state = {
         hasLocationPermission: null,
         currentLocation: null,
@@ -25,6 +19,7 @@ export default class Map extends React.Component {
         selectedAddress: null,
     };
 
+    //Vi henter permissions til at bruge lokationstjeneste på brugerens device
     getLocationPermission = async () => {
         const { status } = await Permissions.askAsync(Permissions.LOCATION);
         this.setState({ hasLocationPermission: status });
@@ -32,17 +27,16 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
-
-
     };
 
+    //Opdaterer brugerens lokation
     updateLocation = async () => {
         const { coords } = await Location.getCurrentPositionAsync();
         this.setState({ currentLocation: coords });
         const { latitude, longitude } = coords;
         this.mapViewRef &&
         this.mapViewRef.current.animateCamera({
-            camera: { center: { latitude, longitude }, zoom: 2000, altitude: 1050 },
+            camera: { center: { latitude, longitude }, zoom: 20, altitude: 100 },
             duration: 10,
         });
     };
@@ -60,6 +54,7 @@ export default class Map extends React.Component {
     closeInfoBox = () =>
         this.setState({ selectedCoordinate: null, selectedAddress: null });
 
+    //Skriver nuværende positionskoordinaterne ved tryk på update knappen
     renderCurrentLocation = () => {
         const { hasLocationPermission, currentLocation } = this.state;
         if (hasLocationPermission === null) {
@@ -97,13 +92,11 @@ export default class Map extends React.Component {
                     provider="google"
                     style={styles.map}
                     ref={this.mapViewRef}
-                    
                     showsUserLocation
-                    animate
                     showsMyLocationButton
-                    initialPosition
                     followsUserLocation={true}>
                     <Marker
+                        //Manuel indtastning af en havn - bliver dynamisk senere
                         coordinate={{ latitude: 55.493622, longitude: 11.174209 }}
                         title="Mullerup Havn"
                         description="Brændstofpris: 11.3 - xx km"

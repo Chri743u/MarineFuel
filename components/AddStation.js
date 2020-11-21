@@ -28,10 +28,12 @@ export default class AddStation extends React.Component {
         price: '',
     };
 
+    //Håndtering af navn og pris til havn
     handleNameChange = text => this.setState({ name: text });
 
     handlePriceChange = text => this.setState({ price: text });
 
+    //Kald til databasen som kaldes når der trykkes på 'add station' - ses i render()
     handleSave = () => {
         const { name, price} = this.state;
         try {
