@@ -62,14 +62,14 @@ const AppContainer = createAppContainer(MainStackNavigator);
 export default class App extends React.Component {
   componentDidMount() {
     const firebaseConfig = {
-      apiKey: "AIzaSyBaa1U7cLxIXE2WZMLKplA7vrEcmCWRmI8",
-      authDomain: "marinefuel-95f1a.firebaseapp.com",
-      databaseURL: "https://marinefuel-95f1a.firebaseio.com",
-      projectId: "marinefuel-95f1a",
-      storageBucket: "marinefuel-95f1a.appspot.com",
-      messagingSenderId: "598074706617",
-      appId: "1:598074706617:web:d748c9e73776ea4d306968",
-      measurementId: "G-HP5KBX6H6W"
+      apiKey: "AIzaSyBnm2sD31aR3--yG2iAqhDVE1tRCNR3bEc",
+      authDomain: "marinefueldb.firebaseapp.com",
+      databaseURL: "https://marinefueldb.firebaseio.com",
+      projectId: "marinefueldb",
+      storageBucket: "marinefueldb.appspot.com",
+      messagingSenderId: "600925738741",
+      appId: "1:600925738741:web:cba1c092c955d1fb3897bc",
+      measurementId: "G-9ER6NJBPB2"
     };
 
     //Vi opretter en rekursiv funktion som kontrollere at der ikke allerede er oprettet en instans af firebase

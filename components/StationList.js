@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     item: {
-        width: '50%'
+        width: '20%'
     },
     header: {
         flexDirection: "row",

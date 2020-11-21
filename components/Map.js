@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
-import Constants from 'expo-constants';
-import MapView, {Marker} from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import * as React from "react";
+import Constants from "expo-constants";
+import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import firebase from "firebase";
 
 export default class Map extends React.Component {
@@ -12,7 +12,7 @@ export default class Map extends React.Component {
 
     //Vi sætter state til null
     state = {
-        station: [],
+        stations: {},
         hasLocationPermission: null,
         currentLocation: null,
         userMarkerCoordinates: [],
@@ -28,15 +28,12 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
-        await
-            firebase
-                .database()
-                .ref('/Stations/'+id)
-                .once('value', dataObject => {
-                    const station = dataObject.val();
-                    const {name, lat, lon} = station;
-                    this.setState({name, lat, lon});
-                });
+        firebase
+            .database()
+            .ref("/Stations")
+            .on("value", (snapshot) => {
+                this.setState({ stations: snapshot.val() });
+            });
     };
 
     //Opdaterer brugerens lokation
@@ -51,12 +48,12 @@ export default class Map extends React.Component {
         });
     };
 
-    handleSelectMarker = coordinate => {
+    handleSelectMarker = (coordinate) => {
         this.setState({ selectedCoordinate: coordinate });
         this.findAddress(coordinate);
     };
 
-    findAddress = async coordinate => {
+    findAddress = async (coordinate) => {
         const [selectedAddress] = await Location.reverseGeocodeAsync(coordinate);
         this.setState({ selectedAddress });
     };
@@ -66,7 +63,6 @@ export default class Map extends React.Component {
 
     //Skriver nuværende positionskoordinaterne ved tryk på update knappen
     renderCurrentLocation = () => {
-
         const { hasLocationPermission, currentLocation } = this.state;
         if (hasLocationPermission === null) {
             return null;
@@ -79,53 +75,68 @@ export default class Map extends React.Component {
                 <Button title="Update Location" onPress={this.updateLocation} />
                 {currentLocation && (
                     <Text>
-                        {`${currentLocation.latitude}, ${
-                            currentLocation.longitude
-                        } accuracy:${currentLocation.accuracy}`}
+                        {`${currentLocation.latitude}, ${currentLocation.longitude} accuracy:${currentLocation.accuracy}`}
                     </Text>
                 )}
             </View>
         );
     };
 
-
     render() {
         const {
-            station,
+            stations,
             userMarkerCoordinates,
             selectedCoordinate,
             selectedAddress,
         } = this.state;
-        return (
 
+        {
+            /**
+             Use the .values() function from the Object class to create an array from the stations object
+             */
+        }
+        const stationArray = Object.values(stations);
+        return (
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
                 <MapView
                     provider="google"
                     style={styles.map}
                     ref={this.mapViewRef}
+                    initialRegion={{
+                        latitude: 55.4936,
+                        longitude: 11.1742,
+                        latitudeDelta: 0.10,
+                        longitudeDelta: 0.45
+                    }}
                     showsUserLocation
                     showsMyLocationButton
-                    followsUserLocation={true}>
-                    <Marker
-                        coordinate={{ latitude: station.lat, longitude: station.lon}}
-                        title="Korsør Lystbådehavn"
-                        description="Brændstofpris: 10.9 - xx km"
-
-                    />
-                    <Marker
-                        coordinate={{ latitude: 55.965206, longitude: 11.844747 }}
-                        title="Hundested Havn"
-                        description="Brændstofpris: 9.9 - xx km"
-
-                    />
-                    {userMarkerCoordinates.map((coordinate, index) => (
-                        <Marker
-                            coordinate={coordinate}
-                            key={index.toString()}
-                            onPress={() => this.handleSelectMarker(coordinate)}
-                        />
-                    ))}
+                    followsUserLocation={true}
+                >
+                    {/**
+                     * If stationArray has any elements
+                     * map over stationArray with .map()
+                     * return a <Marker /> component for each element in stationArray
+                     */}
+                    {stationArray.length > 0 &&
+                    stationArray.map((station, index) => {
+                        return (
+                            <Marker
+                                coordinate={{ latitude: station.lat, longitude: station.lon }}
+                                title={station.name}
+                                key={index}
+                                description={"Benzin: " + station.benzin + "\tDiesel: " + station.diesel + "\nAfstand: "}
+                            />
+                        );
+                    })}
+                    {//userMarkerCoordinates.map((coordinate, index) => (
+                       // <Marker
+                         //   coordinate={coordinate}
+                         //   key={index.toString()}
+                         //   onPress={() => this.handleSelectMarker(coordinate)}
+                       // />
+                    //))
+                        }
                 </MapView>
                 {selectedCoordinate && (
                     <View style={styles.infoBox}>
@@ -148,21 +159,21 @@ export default class Map extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#ecf0f1',
+        backgroundColor: "#ecf0f1",
         padding: 8,
     },
     map: { flex: 1 },
     infoBox: {
         height: 100,
-        position: 'absolute',
+        position: "absolute",
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: 'yellow',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: "yellow",
+        justifyContent: "center",
+        alignItems: "center",
         flex: 1,
     },
     infoText: {
