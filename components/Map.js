@@ -7,12 +7,12 @@ import * as Permissions from 'expo-permissions';
 import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
 import firebase from "firebase";
 
-
 export default class Map extends React.Component {
     mapViewRef = React.createRef();
 
     //Vi sætter state til null
     state = {
+        station: [],
         hasLocationPermission: null,
         currentLocation: null,
         userMarkerCoordinates: [],
@@ -28,12 +28,16 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
-        firebase
-            .database()
-            .ref('/Stations')
-            .on('value', snapshot => {
-                this.setState({stations: snapshot.val()});
-            });}
+        await
+            firebase
+                .database()
+                .ref('/Stations/'+id)
+                .once('value', dataObject => {
+                    const station = dataObject.val();
+                    const {name, lat, lon} = station;
+                    this.setState({name, lat, lon});
+                });
+    };
 
     //Opdaterer brugerens lokation
     updateLocation = async () => {
@@ -87,7 +91,7 @@ export default class Map extends React.Component {
 
     render() {
         const {
-            stations,
+            station,
             userMarkerCoordinates,
             selectedCoordinate,
             selectedAddress,
@@ -96,13 +100,6 @@ export default class Map extends React.Component {
 
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
-                <Marker
-                    //Manuel indtastning af en havn - bliver dynamisk senere
-                    coordinate={{ latitude: stations.lat, longitude: stations.lon}}
-                    title={stations.name}
-                    description="Brændstofpris: 10.9 - xx km"
-
-                />
                 <MapView
                     provider="google"
                     style={styles.map}
@@ -111,7 +108,7 @@ export default class Map extends React.Component {
                     showsMyLocationButton
                     followsUserLocation={true}>
                     <Marker
-                        coordinate={{ latitude: 55.326935, longitude: 11.131381 }}
+                        coordinate={{ latitude: station.lat, longitude: station.lon}}
                         title="Korsør Lystbådehavn"
                         description="Brændstofpris: 10.9 - xx km"
 
