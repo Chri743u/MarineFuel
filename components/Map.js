@@ -20,8 +20,6 @@ export default class Map extends React.Component {
         userMarkerCoordinates: [],
         selectedCoordinate: null,
         selectedAddress: null,
-        currentLatitude: 10,
-        currentLongitude: 10,
     };
 
     //Vi henter permissions til at bruge lokationstjeneste på brugerens device
