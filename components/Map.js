@@ -66,7 +66,7 @@ export default class Map extends React.Component {
     closeInfoBox = () =>
         this.setState({ selectedCoordinate: null, selectedAddress: null });
 
-    //Skriver nuværende positionskoordinaterne ved tryk på update knappen
+    //Skriver nuværende positionskoordinaterne ved tryk på update knappen hehe
     renderCurrentLocation = () => {
         const { hasLocationPermission, currentLocation } = this.state;
         if (hasLocationPermission === null) {
