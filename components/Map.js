@@ -6,6 +6,8 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import firebase from "firebase";
+import {getDistance, getLatitude} from "geolib";
+import {getCurrentPositionAsync, getLastKnownPositionAsync} from "expo-location";
 
 export default class Map extends React.Component {
     mapViewRef = React.createRef();
@@ -18,6 +20,8 @@ export default class Map extends React.Component {
         userMarkerCoordinates: [],
         selectedCoordinate: null,
         selectedAddress: null,
+        currentLatitude: 10,
+        currentLongitude: 10,
     };
 
     //Vi henter permissions til at bruge lokationstjeneste på brugerens device
@@ -28,6 +32,7 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
+        await this.updateLocation();
         firebase
             .database()
             .ref("/Stations")
@@ -73,11 +78,6 @@ export default class Map extends React.Component {
         return (
             <View>
                 <Button title="Update Location" onPress={this.updateLocation} />
-                {currentLocation && (
-                    <Text>
-                        {`${currentLocation.latitude}, ${currentLocation.longitude} accuracy:${currentLocation.accuracy}`}
-                    </Text>
-                )}
             </View>
         );
     };
@@ -85,9 +85,9 @@ export default class Map extends React.Component {
     render() {
         const {
             stations,
-            userMarkerCoordinates,
             selectedCoordinate,
             selectedAddress,
+            currentLocation,
         } = this.state;
 
         {
@@ -95,10 +95,12 @@ export default class Map extends React.Component {
              Use the .values() function from the Object class to create an array from the stations object
              */
         }
+
         const stationArray = Object.values(stations);
         return (
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
+                {currentLocation &&(
                 <MapView
                     provider="google"
                     style={styles.map}
@@ -112,6 +114,7 @@ export default class Map extends React.Component {
                     showsUserLocation
                     showsMyLocationButton
                     followsUserLocation={true}
+
                 >
                     {/**
                      * If stationArray has any elements
@@ -125,19 +128,15 @@ export default class Map extends React.Component {
                                 coordinate={{ latitude: station.lat, longitude: station.lon }}
                                 title={station.name}
                                 key={index}
-                                description={"Benzin: " + station.benzin + "\tDiesel: " + station.diesel + "\nAfstand: "}
+                                description={"Benzin: " + station.benzin + "\tDiesel: " + station.diesel + "\nAfstand: " +
+                                (getDistance(
+                                    {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
+                                    {latitude: station.lat, longitude: station.lon})/1000) + " km"}
                             />
                         );
                     })}
-                    {//userMarkerCoordinates.map((coordinate, index) => (
-                       // <Marker
-                         //   coordinate={coordinate}
-                         //   key={index.toString()}
-                         //   onPress={() => this.handleSelectMarker(coordinate)}
-                       // />
-                    //))
-                        }
-                </MapView>
+
+                </MapView>)}
                 {selectedCoordinate && (
                     <View style={styles.infoBox}>
                         <Text style={styles.infoText}>
