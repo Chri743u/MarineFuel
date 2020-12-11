@@ -9,6 +9,9 @@ import StationDetails from "./components/StationDetails";
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import Map from "./components/Map";
 import EditStation from "./components/EditStation";
+import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUpForm";
+import ProfileScreen from "./components/ProfileScreen";
 
 //StackNavigator giver app'en mulighed for at lave en overgang mellem hver skærm,
 //hvor hver skærm placeres ovenpå en stack.
@@ -77,9 +80,31 @@ export default class App extends React.Component {
     if (firebase.apps.length ===0 ) {
       firebase.initializeApp(firebaseConfig);
     }
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ user });
+    });
 
   }
   render() {
-    return <AppContainer />;
+    const {user} = this.state
+    if(!user){
+      return (
+          <View style={styles.container}>
+            <Text style={styles.paragraph}>
+              Opret eller Login med din firebase Email
+            </Text>
+            <Card>
+              <SignUpForm />
+            </Card>
+            <Card>
+              <LoginForm />
+            </Card>
+          </View>
+      )
+    } else {
+
+      return <AppContainer />;
+
   }
+}
 }
