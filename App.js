@@ -12,14 +12,17 @@ import EditStation from "./components/EditStation";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import ProfileScreen from "./components/ProfileScreen";
+import { Text, View, StyleSheet } from 'react-native';
+import Constants from "expo-constants";
+import { Card } from 'react-native-paper';
 
 //StackNavigator giver app'en mulighed for at lave en overgang mellem hver skærm,
 //hvor hver skærm placeres ovenpå en stack.
 const StackNavigator = createStackNavigator(
     {
-      StationList: { screen: StationList },
-      StationDetails: { screen: StationDetails },
-      EditStation:{screen: EditStation},
+      StationList: { screen: StationList},
+      StationDetails: { screen: StationDetails},
+      EditStation:{screen: EditStation}
     },
     { initialRouteKey: 'Map' }
 );
@@ -41,15 +44,15 @@ const TabNavigator = createBottomTabNavigator({
           <FontAwesome5 name="gas-pump" size={24} color={tintColor} />
       )
     },
-  },/*
-  Third: {screen: AddStation,
+  },
+  Third: {screen: ProfileScreen,
     navigationOptions: {
-  tabBarLabel:"Tilføj havn",
+  tabBarLabel:"Settings",
       tabBarIcon: ({ tintColor }) => (
       <AntDesign name="plussquareo" size={24} color={tintColor} />
   )
 },
-},*/
+},
 });
 
 //Det primære view hvorfra andre views udfoldes. 'initialRouteKey' definere hvilken skærm som vises på opstart
@@ -57,12 +60,13 @@ const MainStackNavigator = createStackNavigator(
     {
       MarineFuel: {screen: TabNavigator},
     },
-{ initialRouteKey: 'Map' }
+{ initialRouteKey: 'Map' },
 )
 const AppContainer = createAppContainer(MainStackNavigator);
 
 
 export default class App extends React.Component {
+  state = {user: null,};
   componentDidMount() {
     const firebaseConfig = {
       apiKey: "AIzaSyBnm2sD31aR3--yG2iAqhDVE1tRCNR3bEc",
@@ -94,17 +98,32 @@ export default class App extends React.Component {
               Opret eller Login med din firebase Email
             </Text>
             <Card>
-              <SignUpForm />
+              <LoginForm />
             </Card>
             <Card>
-              <LoginForm />
+              <SignUpForm />
             </Card>
           </View>
       )
     } else {
 
-      return <AppContainer />;
+      return <AppContainer user={user}/>;
 
   }
 }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

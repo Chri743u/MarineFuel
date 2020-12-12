@@ -26,6 +26,8 @@ export default class StationList extends React.Component {
     };
 
     componentDidMount() {
+        const { user } = firebase.auth();
+        this.setState({ user });
         firebase
             .database()
             .ref('/Stations')
@@ -38,6 +40,11 @@ export default class StationList extends React.Component {
 
     //render funktionen tager vores argument og præsenterer det på skærmen.
     render() {
+        const { user } = this.props;
+        // Hvis der ikke er en bruger logget ind, vises der ingenting
+        if (!user) {
+            return null;
+        }
         const { stations } = this.state;
         //I tilfælde af en tom mængde (Ø), vises ingenting.
         if (!stations) {

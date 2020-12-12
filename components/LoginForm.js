@@ -50,6 +50,7 @@ export default class SignUpForm extends React.Component {
             console.log(result);
             this.endLoading();
             this.setState({ isCompleted: true });
+            this.props.navigation.navigate('Map')
         } catch (error) {
             this.setError(error.message);
             this.endLoading();
@@ -63,7 +64,7 @@ export default class SignUpForm extends React.Component {
         }
         return (
             <View>
-                <Text style={styles.header}>Login up</Text>
+                <Text style={styles.header}>Login</Text>
                 <TextInput
                     placeholder="email"
                     value={email}

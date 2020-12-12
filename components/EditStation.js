@@ -30,6 +30,8 @@ export default class EditStation extends React.Component {
     };
 
     componentDidMount() {
+        const { user } = firebase.auth();
+        this.setState({ user });
         const id = this.props.navigation.getParam('id');
         this.loadStation(id);
     }
@@ -69,6 +71,11 @@ export default class EditStation extends React.Component {
     };
 
     render() {
+        const { user } = this.props;
+        // Hvis der ikke er en bruger logget ind, vises der ingenting
+        if (!user) {
+            return null;
+        }
         const { name, diesel, benzin} = this.state;
         return (
             <View style={styles.container}>

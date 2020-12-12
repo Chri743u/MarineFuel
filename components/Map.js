@@ -14,6 +14,11 @@ export default class Map extends React.Component {
 
     //Vi sætter state til null
     state = {
+
+        uid: firebase.auth().currentUser.uid,
+        user: firebase.auth().currentUser,
+        email: firebase.auth().currentUser.email,
+
         stations: {},
         hasLocationPermission: null,
         currentLocation: null,
@@ -30,13 +35,15 @@ export default class Map extends React.Component {
 
     componentDidMount = async () => {
         await this.getLocationPermission();
-        await this.updateLocation();
+        const { user } = firebase.auth().currentUser;
+        this.setState({ user });
         firebase
             .database()
             .ref("/Stations")
             .on("value", (snapshot) => {
                 this.setState({ stations: snapshot.val() });
             });
+        await this.updateLocation();
     };
 
     //Opdaterer brugerens lokation
@@ -94,7 +101,12 @@ export default class Map extends React.Component {
              */
         }
 
+        const user = firebase.auth().currentUser;
         const stationArray = Object.values(stations);
+        // Hvis der ikke er en bruger logget ind, vises der ingenting
+        if (!user) {
+           return null;
+       }
         return (
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}
@@ -126,7 +138,7 @@ export default class Map extends React.Component {
                                 coordinate={{ latitude: station.lat, longitude: station.lon }}
                                 title={station.name}
                                 key={index}
-                                description={"Benzin: " + station.benzin + "\tDiesel: " + station.diesel + "\nAfstand: " +
+                                description={"Benzin: " + station.benzin.value + "\tDiesel: " + station.diesel.value + "\nAfstand: " +
                                 (getDistance(
                                     {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
                                     {latitude: station.lat, longitude: station.lon})/1000) + " km"}

@@ -26,6 +26,8 @@ export default class StationDetails extends React.Component {
     state = { station: null };
 
     componentDidMount() {
+        const { user } = firebase.auth();
+        this.setState({ user });
         //ID udlæses fra navigation parametre og station objektet indlæses når komponenten starter
         const id = this.props.navigation.getParam('id');
         this.loadStation(id);
@@ -85,6 +87,11 @@ export default class StationDetails extends React.Component {
     //Vores præsentation på skærmen, hvor 'Navn' på stationen og 'Brændstofspris' på stationen fremgår
     //Her bindes de forskellige funktioner sammen
     render() {
+        const { user } = this.props;
+        // Hvis der ikke er en bruger logget ind, vises der ingenting
+        if (!user) {
+            return null;
+        }
         const { station } = this.state;
         if (!station) {
             return <Text>No data</Text>;
