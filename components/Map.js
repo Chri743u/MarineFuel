@@ -50,12 +50,6 @@ export default class Map extends React.Component {
     updateLocation = async () => {
         const { coords } = await Location.getCurrentPositionAsync();
         this.setState({ currentLocation: coords });
-        const { latitude, longitude } = coords;
-        this.mapViewRef &&
-        this.mapViewRef.current.animateCamera({
-            camera: { center: { latitude, longitude }, zoom: 20, altitude: 100 },
-            duration: 10,
-        });
     };
 
     handleSelectMarker = (coordinate) => {
@@ -71,7 +65,7 @@ export default class Map extends React.Component {
     closeInfoBox = () =>
         this.setState({ selectedCoordinate: null, selectedAddress: null });
 
-    //Skriver nuværende positionskoordinaterne ved tryk på update knappen hehe
+    //Opdaterer nuværende positionskoordinaterne ved tryk på update knappen
     renderCurrentLocation = () => {
         const { hasLocationPermission, currentLocation } = this.state;
         if (hasLocationPermission === null) {
@@ -116,8 +110,8 @@ export default class Map extends React.Component {
                     style={styles.map}
                     ref={this.mapViewRef}
                     initialRegion={{
-                        latitude: 55.4936,
-                        longitude: 11.1742,
+                        latitude: currentLocation.latitude,
+                        longitude: currentLocation.longitude,
                         latitudeDelta: 0.10,
                         longitudeDelta: 0.45
                     }}
@@ -138,7 +132,7 @@ export default class Map extends React.Component {
                                 coordinate={{ latitude: station.lat, longitude: station.lon }}
                                 title={station.name}
                                 key={index}
-                                description={"Benzin: " + station.benzin.value + "\tDiesel: " + station.diesel.value + "\nAfstand: " +
+                                description={"Benzin: " + station.benzin + "\tDiesel: " + station.diesel + "\nAfstand: " +
                                 (getDistance(
                                     {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
                                     {latitude: station.lat, longitude: station.lon})/1000) + " km"}

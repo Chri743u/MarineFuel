@@ -2,6 +2,7 @@ import * as React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 import StationListItem from './StationListItem';
+import {ScrollView} from "react-native-web";
 
 const styles = StyleSheet.create({
     container1: {
@@ -17,15 +18,20 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         margin: 5,
         alignContent: "center",
+        justifyContent: 'space-between',
     },
 });
 
 export default class StationList extends React.Component {
     state = {
         stations: {},
+        uid: firebase.auth().currentUser.uid,
+        user: firebase.auth().currentUser,
+        email: firebase.auth().currentUser.email,
+        currentLocation: null,
     };
 
-    componentDidMount() {
+    componentDidMount = async () => {
         const { user } = firebase.auth();
         this.setState({ user });
         firebase
@@ -40,12 +46,12 @@ export default class StationList extends React.Component {
 
     //render funktionen tager vores argument og præsenterer det på skærmen.
     render() {
-        const { user } = this.props;
+        const user = firebase.auth().currentUser;
         // Hvis der ikke er en bruger logget ind, vises der ingenting
         if (!user) {
             return null;
         }
-        const { stations } = this.state;
+        const { stations, currentLocation } = this.state;
         //I tilfælde af en tom mængde (Ø), vises ingenting.
         if (!stations) {
             return null;
@@ -56,10 +62,12 @@ export default class StationList extends React.Component {
         //Ligeledes skal vores nøgler - vores ID'er - indsættes.
         const stationKeys = Object.keys(stations);
         return (
+
             <View style={styles.container1}>
-                <Text style={styles.header}> Havn                                                 Brændstofpris</Text>
+                <Text style={styles.header}>     Havn                       Diesel        Benzin       Afstand</Text>
             <View style={styles.row}>
                 <FlatList
+                    nestedScrollEnabled={true}
                     data={stationArray}
                     //stationKeys som blev indsat i vores Array anvendes til at finde ID'et på en given station
                     //og returnere dette som en nøgle, og videregiver det som ID til StationListItem filen
@@ -74,6 +82,7 @@ export default class StationList extends React.Component {
                 />
             </View>
             </View>
+
         );
     }
 }

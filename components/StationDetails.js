@@ -23,7 +23,13 @@ const styles = StyleSheet.create({
 });
 
 export default class StationDetails extends React.Component {
-    state = { station: null };
+
+    state = {
+        station: null,
+        uid: firebase.auth().currentUser.uid,
+        user: firebase.auth().currentUser,
+        email: firebase.auth().currentUser.email,
+    };
 
     componentDidMount() {
         const { user } = firebase.auth();
@@ -87,7 +93,7 @@ export default class StationDetails extends React.Component {
     //Vores præsentation på skærmen, hvor 'Navn' på stationen og 'Brændstofspris' på stationen fremgår
     //Her bindes de forskellige funktioner sammen
     render() {
-        const { user } = this.props;
+        const user = firebase.auth().currentUser;
         // Hvis der ikke er en bruger logget ind, vises der ingenting
         if (!user) {
             return null;
