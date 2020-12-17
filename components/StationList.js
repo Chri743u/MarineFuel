@@ -2,7 +2,6 @@ import * as React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 import StationListItem from './StationListItem';
-import {ScrollView} from "react-native-web";
 
 const styles = StyleSheet.create({
     container1: {
