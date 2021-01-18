@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import Constants from "expo-constants";
 import MapView, { Marker } from "react-native-maps";
@@ -6,8 +5,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import firebase from "firebase";
-import {getDistance, getLatitude} from "geolib";
-import {getCurrentPositionAsync, getLastKnownPositionAsync} from "expo-location";
+import {getDistance} from "geolib";
 
 export default class Map extends React.Component {
     mapViewRef = React.createRef();
@@ -158,7 +156,6 @@ export default class Map extends React.Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -179,7 +176,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flex: 1,
     },
-    infoText: {
-        fontSize: 20,
-    },
+    infoText: {fontSize: 20,},
 });
+

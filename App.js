@@ -4,7 +4,6 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import StationList from "./components/StationList";
-import AddStation from "./components/AddStation";
 import StationDetails from "./components/StationDetails";
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import Map from "./components/Map";
@@ -69,14 +68,13 @@ export default class App extends React.Component {
   state = {user: null,};
   componentDidMount() {
     const firebaseConfig = {
-      apiKey: "AIzaSyBnm2sD31aR3--yG2iAqhDVE1tRCNR3bEc",
-      authDomain: "marinefueldb.firebaseapp.com",
-      databaseURL: "https://marinefueldb.firebaseio.com",
-      projectId: "marinefueldb",
-      storageBucket: "marinefueldb.appspot.com",
-      messagingSenderId: "600925738741",
-      appId: "1:600925738741:web:cba1c092c955d1fb3897bc",
-      measurementId: "G-9ER6NJBPB2"
+      apiKey: "AIzaSyBPz6sNBbQUjiI2dylGsgQlyP3Z9WpMmc0",
+      authDomain: "marinefuel-e0931.firebaseapp.com",
+      projectId: "marinefuel-e0931",
+      storageBucket: "marinefuel-e0931.appspot.com",
+      messagingSenderId: "306483534177",
+      appId: "1:306483534177:web:713c537269d36a05cacd20",
+      measurementId: "G-4E22Q7CJD4"
     };
 
     //Vi opretter en rekursiv funktion som kontrollere at der ikke allerede er oprettet en instans af firebase

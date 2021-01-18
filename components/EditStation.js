@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         height: 30,
         margin: 10,
     },
-    label: { fontWeight: 'bold', width: 100 },
+    label: { fontWeight: 'bold', width: 150 },
     input: { borderWidth: 1, flex: 1 },
 });
 
@@ -27,7 +27,11 @@ export default class EditStation extends React.Component {
         name: '',
         diesel: '',
         benzin: '',
-    };
+        uid: firebase.auth().currentUser.uid,
+        user: firebase.auth().currentUser,
+        email: firebase.auth().currentUser.email,
+        };
+
 
     componentDidMount() {
         const { user } = firebase.auth();
@@ -71,7 +75,7 @@ export default class EditStation extends React.Component {
     };
 
     render() {
-        const { user } = this.props;
+        const user = firebase.auth().currentUser;
         // Hvis der ikke er en bruger logget ind, vises der ingenting
         if (!user) {
             return null;
@@ -81,12 +85,7 @@ export default class EditStation extends React.Component {
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Navn</Text>
-                        <TextInput
-                            value={name}
-                            onChangeText={this.handleNameChange}
-                            style={styles.input}
-                        />
+                        <Text style={styles.label}>{name}</Text>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.label}>Dieselpris</Text>
@@ -104,7 +103,7 @@ export default class EditStation extends React.Component {
                             style={styles.input}
                         />
                     </View>
-                    <Button title="Press to update station info" onPress={this.updateData} />
+                    <Button title="Tryk for at opdatere priserne!" onPress={this.updateData} />
                 </ScrollView>
             </View>
         );

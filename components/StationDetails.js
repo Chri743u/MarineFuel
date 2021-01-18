@@ -72,7 +72,7 @@ export default class StationDetails extends React.Component {
     };
 
     //Funktionen som håndtere at et station objekt skal slettes.
-    handleDelete = () => {
+    /*handleDelete = () => {
             const { navigation } = this.props;
             const id = navigation.getParam('id');
             try {
@@ -88,7 +88,7 @@ export default class StationDetails extends React.Component {
                 Alert.alert(error.message);
             }
 
-    };
+    };*/
 
     //Vores præsentation på skærmen, hvor 'Navn' på stationen og 'Brændstofspris' på stationen fremgår
     //Her bindes de forskellige funktioner sammen
@@ -117,8 +117,7 @@ export default class StationDetails extends React.Component {
                     <Text style={styles.label}>Benzinpris</Text>
                     <Text style={styles.value}>{station.benzin}</Text>
                 </View>
-                <Button title="Edit" onPress={this.handleEdit} />
-                <Button title="Delete" onPress={this.confirmDelete} />
+                <Button title="Opdatér pris" onPress={this.handleEdit} />
             </View>
         );
     }
