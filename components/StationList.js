@@ -2,6 +2,7 @@ import * as React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase';
 import StationListItem from './StationListItem';
+import {ScrollView} from "react-native-web";
 
 const styles = StyleSheet.create({
     container1: {
@@ -62,8 +63,11 @@ export default class StationList extends React.Component {
         const stationKeys = Object.keys(stations);
         return (
 
+
             <View style={styles.container1}>
+
                 <Text style={styles.header}>     Havn                       Diesel        Benzin       Afstand</Text>
+
             <View style={styles.row}>
                 <FlatList
                     nestedScrollEnabled={true}
@@ -80,6 +84,7 @@ export default class StationList extends React.Component {
                     )}
                 />
             </View>
+
             </View>
 
         );
